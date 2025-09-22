@@ -18,7 +18,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
-        run: npm Install
+        run: npm install
 
       - name: Render HTML tool
         run: npm run render
