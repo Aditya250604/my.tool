@@ -12,13 +12,29 @@ const puppeteer = require('puppeteer');
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: 'networkidle2' });
 
-  await page.waitForSelector('#summary');
+  // Tunggu body siap
+  await page.waitForSelector('body');
 
-  const summary = await page.$eval('#summary', el => el.innerText);
-  const data = await page.$eval('#data', el => el.innerText);
+  // Ambil isi status kalau ada
+  let statusText = '';
+  try {
+    statusText = await page.$eval('#status', el => el.innerText);
+  } catch (e) {
+    statusText = 'Tidak ada elemen #status';
+  }
 
-  fs.writeFileSync(path.join(outDir, 'output.txt'), `Summary:\n${summary}\n\nData:\n${data}`);
-  await page.screenshot({ path: path.join(outDir, 'screenshot.png'), fullPage: true });
+  // Ambil seluruh isi body sebagai fallback
+  const fullBody = await page.$eval('body', el => el.innerText);
+
+  fs.writeFileSync(
+    path.join(outDir, 'output.txt'),
+    `Status:\n${statusText}\n\nIsi Body:\n${fullBody}`
+  );
+
+  await page.screenshot({
+    path: path.join(outDir, 'screenshot.png'),
+    fullPage: true
+  });
 
   await browser.close();
 })();
