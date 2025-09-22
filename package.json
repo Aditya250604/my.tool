@@ -1,0 +1,12 @@
+{
+  "name": "mytool-telegram",
+  "version": "1.0.0",
+  "description": "Render HTML tool and send result to Telegram via GitHub Actions",
+  "main": "tool/render.js",
+  "scripts": {
+    "render": "node tool/render.js"
+  },
+  "dependencies": {
+    "puppeteer": "^20.0.0"
+  }
+}
