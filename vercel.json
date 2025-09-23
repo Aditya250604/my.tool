@@ -1,9 +1,9 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/sendPhoto.js", "use": "@vercel/node" }
+    { "src": "index.html", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/sendPhoto", "dest": "/api/sendPhoto.js" }
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
