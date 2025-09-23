@@ -1,19 +1,17 @@
-// api/sendPhoto.js
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
   try {
     const { image } = req.body;
     if (!image) {
-      return res.status(400).json({ error: "No image provided" });
+      return res.status(400).json({ ok: false, error: "No image provided" });
     }
 
     const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-    // kirim ke Telegram
     const tgRes = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`,
       {
@@ -27,13 +25,19 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await tgRes.json();
-    if (!data.ok) {
-      return res.status(500).json({ error: data.description });
+    let data;
+    try {
+      data = await tgRes.json(); // amanin parsing JSON
+    } catch (e) {
+      return res.status(500).json({ ok: false, error: "Invalid response from Telegram" });
     }
 
-    return res.status(200).json({ success: true, data });
+    if (!data.ok) {
+      return res.status(500).json({ ok: false, error: data.description });
+    }
+
+    return res.status(200).json({ ok: true, data });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ ok: false, error: err.message });
   }
 }
