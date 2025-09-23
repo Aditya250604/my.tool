@@ -1,4 +1,5 @@
 const FormData = require("form-data");
+const fetch = require("node-fetch");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -20,11 +21,11 @@ module.exports = async (req, res) => {
     const form = new FormData();
     form.append("chat_id", CHAT_ID);
     form.append("caption", "📸 Foto baru dari user");
-    form.append("document", buffer, { filename: "snap.jpg" }); // <-- pakai document
+    form.append("document", buffer, { filename: "snap.jpg" });
 
     const tgRes = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`,
-      { method: "POST", body: form, headers: form.getHeaders() }
+      { method: "POST", body: form }
     );
 
     const text = await tgRes.text();
