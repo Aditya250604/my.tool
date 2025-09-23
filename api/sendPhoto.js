@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { image } = req.body;
+    const { image } = req.body || {};
     if (!image) {
       return res.status(400).json({ ok: false, error: "No image provided" });
     }
@@ -20,10 +20,10 @@ module.exports = async (req, res) => {
     const form = new FormData();
     form.append("chat_id", CHAT_ID);
     form.append("caption", "📸 Foto baru dari user");
-    form.append("photo", buffer, { filename: "snap.jpg" });
+    form.append("document", buffer, { filename: "snap.jpg" }); // <-- pakai document
 
     const tgRes = await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`,
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`,
       { method: "POST", body: form, headers: form.getHeaders() }
     );
 
